@@ -1318,6 +1318,7 @@ function pick(pool, n) {
   return shuffle(pool).slice(0, Math.min(n, pool.length));
 }
 
+let quizStartTime = 0;
 let questions  = [];
 let answers    = {};
 let current    = 0;
@@ -1392,6 +1393,7 @@ student = { name, course, dept, email, whatsapp };
 
   buildDotGrid();
   updateProgress();
+quizStartTime = Date.now();
   show('quiz-screen');
   renderQuestion(0);
   startTimer();
@@ -1578,6 +1580,13 @@ function submitQuiz(timedOut) {
   const now        = new Date();
   const timeStr    = now.toLocaleTimeString('en-NG', { hour:'2-digit', minute:'2-digit' });
   const dateStr    = now.toLocaleDateString('en-NG', { day:'2-digit', month:'short', year:'numeric' });
+
+
+const minutesTaken = Math.floor((Date.now() - quizStartTime) / 60000);
+const suspicious = minutesTaken < 10 
+  ? `⚠️ Suspicious — completed in ${minutesTaken} minute${minutesTaken === 1 ? '' : 's'}` 
+  : `Normal — completed in ${minutesTaken} minutes`;
+
 
   localStorage.setItem('eac_quiz_submitted', 'yes');
   show('result-screen');
