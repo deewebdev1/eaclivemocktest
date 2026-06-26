@@ -1521,6 +1521,7 @@ function startTimer() {
   }, 1000);
 }
 
+
 function renderTimer() {
   const m  = String(Math.floor(timerSec / 60)).padStart(2,'0');
   const s  = String(timerSec % 60).padStart(2,'0');
@@ -1530,6 +1531,27 @@ function renderTimer() {
   if (timerSec <= 300 && timerSec > 60) el.classList.add('warn');
   if (timerSec <= 60) el.classList.add('danger');
 }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   TAB VISIBILITY DETECTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+let tabSwitchCount = 0;
+const MAX_TAB_SWITCHES = 3;
+
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden && !submitted) {
+    tabSwitchCount++;
+    
+    if (tabSwitchCount >= MAX_TAB_SWITCHES) {
+      submitQuiz(true);
+    } else {
+      const remaining = MAX_TAB_SWITCHES - tabSwitchCount;
+      setTimeout(() => {
+        alert(`⚠️ WARNING: You left the quiz tab!\n\nThis has been recorded. You have ${remaining} warning(s) left before your quiz is automatically submitted.`);
+      }, 300);
+    }
+  }
+});
 
 function confirmSubmit() {
   const answered   = Object.keys(answers).length;
