@@ -1634,6 +1634,7 @@ function sendResult({ correct, total, marks, marksMax, pct, timeStr, dateStr, ti
     time_submitted: `${timeStr}, ${dateStr}`,
     timed_out:      timedOut ? 'Yes (time expired)' : 'No',
     breakdown:      breakdownText,
+flag: suspicious,
   }).catch(err => console.warn('EmailJS error:', err));
 }
 </script>
